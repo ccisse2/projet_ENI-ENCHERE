@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -43,26 +44,39 @@ public class EnchereSecurityConfig {
 
         http.authorizeHttpRequests(auth -> {
             auth
-                   /* .requestMatchers("/").permitAll()
-                    .requestMatchers("/css/**").permitAll()
-                    .requestMatchers("/images/**").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/utilisateurs").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/utilisateurs/register").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/utilisateurs/register").permitAll()
-                    .requestMatchers(HttpMethod.GET,"/utilisateurs/reset-password").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/utilisateurs/reset-password").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/profil").hasAnyRole("USER", "ADMIN")
-                    .requestMatchers(HttpMethod.POST, "/article/{id}/upload-image").hasAnyRole("USER", "ADMIN")
-                    .requestMatchers(HttpMethod.GET, "/article/{id}/edit").hasAnyRole("USER", "ADMIN")
-                    .requestMatchers(HttpMethod.POST, "/article/{id}/edit").hasAnyRole("USER", "ADMIN")
-                    .requestMatchers(HttpMethod.POST, "/utilisateur/{pseudo}/supprimer").hasRole("ADMIN")
-                    .anyRequest().authenticated();*/
-                    .anyRequest().permitAll();
+                    // Routes de ControllerUtilisateur
+                    .requestMatchers(HttpMethod.GET, "/utilisateurs/register", "/utilisateurs/verify", "/utilisateurs/reset-password").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/utilisateurs/register", "/utilisateurs/reset-password").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/utilisateurs/reset-password/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/utilisateurs/reset-password/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/utilisateurs/{id}/anonymiser").authenticated()
+
+                    // Routes de ControllerArticle
+                    .requestMatchers(HttpMethod.GET, "/article/creer", "/article/details/**", "/article/{id}/edit").authenticated()
+                    .requestMatchers(HttpMethod.POST, "/article/creer", "/article/{id}/edit", "/article/{id}/upload-image").authenticated()
+                    .requestMatchers(HttpMethod.POST, "/article/encherir").authenticated()
+                    .requestMatchers(HttpMethod.GET, "/article/{id}/delete", "/article/{id}/retrait").authenticated()
+
+                    // Routes de ControllerAccueil
+                    .requestMatchers(HttpMethod.GET, "/", "/search", "/mes-achats").authenticated()
+                    .requestMatchers(HttpMethod.GET, "/").permitAll()
+
+                    // Routes de AdminController
+                    .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                    // Autoriser l'accès aux ressources statiques
+                    .requestMatchers("/css/**", "/images/**").permitAll()
+
+                    .anyRequest().authenticated();
+                 /*   .anyRequest().permitAll();  */
         });
 
         http.formLogin(form ->{
             form.loginPage("/login").permitAll();
             form.defaultSuccessUrl("/login/success", true);
+            form.failureUrl("/login?error=true");
+            form.failureHandler(authenticationFailureHandler());
+            form.permitAll();
         });
 
         http.logout(logout -> logout
@@ -71,6 +85,7 @@ public class EnchereSecurityConfig {
                 .deleteCookies("JSESSIONID")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/").permitAll()
+                .permitAll()
         );
         http.sessionManagement(session -> {
             session
@@ -86,5 +101,12 @@ public class EnchereSecurityConfig {
     @Bean
     public HttpSessionEventPublisher httpSessionEventPublisher() {
         return new HttpSessionEventPublisher();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return (request, response, exception) -> {
+            response.sendRedirect("/login?error=true");
+        };
     }
 }

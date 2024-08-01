@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,8 @@ public class LoginController {
     }
 
     @GetMapping
-    public String loginForm() {
+    public String loginForm(Model model) {
+        model.addAttribute("utilisateur", new Utilisateurs());
         return "login";
     }
 
@@ -52,8 +54,6 @@ public class LoginController {
             membreEnSession.setCredit(aCharger.getCredit());
             membreEnSession.setAdresse(aCharger.getAdresse());
             membreEnSession.setArticlesVendus(aCharger.getArticlesVendus());
-
-
         } else {
             membreEnSession.setId(0L);
             membreEnSession.setNom(null);

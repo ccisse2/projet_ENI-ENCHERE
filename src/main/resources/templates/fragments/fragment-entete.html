@@ -29,17 +29,17 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/}" th:text="#{frag-entete.a.Accueil}"></a>
                 </li>
-                <li class="nav-item dropdown" th:if="${#authorization.expression('isAuthenticated()')}">
+                <li style="width: 50%" class="nav-item dropdown" th:if="${#authorization.expression('isAuthenticated()')}">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                        aria-expanded="false" data-th-text="#{frag-entete.a.profil}"></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu " >
                         <li><a class="nav-link" th:href="@{/article/creer}" th:text="#{frag-entete.a.vendre}"></a></li>
                         <li><a class="nav-link" th:href="@{/profil}" th:text="#{frag-entete.a.profil}"></a></li>
-                        <li><a class="nav-link" th:href="@{/logout}" th:text="#{frag-entete.a.deconnexion}"></a></li>
+                        <li><a class="nav-link" th:href="@{/mes-achats}" th:text="#{frag-entete.a.mesAchats}"></a></li>
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                             <a class="nav-link" th:href="@{/admin/utilisateurs}" th:text="#{frag-entete.a.gestion.User}"></a>
                         </li>
-
+                        <li><a class="nav-link" th:href="@{/logout}" th:text="#{frag-entete.a.deconnexion}"></a></li>
 
                     </ul>
                 </li>

@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout-enchere(
+      titrePage=~{:: title},
+      contenuPage=~{:: main},
+      ressourcesSupp=~{:: #ressources-css})}">
+<head>
+  <title data-th-text="#{view.confirmation.suppression.title}"></title>
+  <th:block id="ressources-css">
+    <script th:src="@{/js/validation.js}"></script>
+  </th:block>
+</head>
+<body>
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header text-center">
+      <h2 th:text="#{view.confirmation.suppression.header}"></h2>
+    </div>
+    <div class="card-body">
+      <p th:if="${message}" class="alert alert-warning" th:text="${message}">
+        Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.
+      </p>
+      <p th:if="${error}" class="alert alert-danger" th:text="${error}"></p>
+      <div class="text-center mt-4">
+        <form th:action="@{/profil/supprimer}" method="post">
+          <button type="submit" class="btn btn-danger" th:text="#{view.confirmation.suppression.confirm}"></button>
+          <a href="/" class="btn btn-secondary" th:text="#{view.confirmation.suppression.cancel}">r</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

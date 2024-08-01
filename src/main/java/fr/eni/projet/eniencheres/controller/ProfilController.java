@@ -100,19 +100,27 @@ public class ProfilController {
     }
 
     @GetMapping("/supprimer")
-    public String afficherConfirmationSuppression() {
+    public String afficherConfirmationSuppression(Model model) {
+        model.addAttribute("message", "Êtes-vous sûr de vouloir supprimer votre compte ?");
         return "view-confirmation-suppression";
     }
 
 
     @PostMapping("/supprimer")
-    public String supprimerCompte(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
+    public String supprimerCompte(Authentication authentication, HttpServletRequest request,
+                                  HttpServletResponse response, Model model) {
         String pseudo = authentication.getName();
-        utilisateursService.supprimerUtilisateur(pseudo);
+        try {
+            utilisateursService.supprimerUtilisateur(pseudo);
+        } catch (Exception e) {
+            model.addAttribute("error", "Une erreur s'est produite lors de la suppression du compte.");
+            return "view-confirmation-suppression";
+        }
 
         // Déconnexion de l'utilisateur
         new SecurityContextLogoutHandler().logout(request, response, authentication);
 
+        model.addAttribute("message", "Votre compte a été supprimé avec succès.");
         return "redirect:/";
     }
 

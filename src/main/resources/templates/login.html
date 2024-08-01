@@ -19,18 +19,28 @@
 
                         <div class="d-flex align-items-center  justify-content-center px-5 mt-xl-n5">
 
-                            <form th:action="@{/login}" method="post" style="width: 23rem;">
+                            <form th:action="@{/login}" method="post" th:object="${utilisateur}" style="width: 23rem;">
 
                                 <h3 class="fw-normal mb-3 pb-3" data-th-text="#{login.h1}" style="letter-spacing: 1px;"></h3>
+
+                                <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                                    <p th:text="#{login.error}"></p>
+                                </div>
 
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="username" data-th-text="#{login.pseudo}"></label>
                                     <input type="text" id="username" name="username" class="form-control form-control-lg"/>
+                                    <div th:if="${#fields.hasErrors('pseudo')}" class="text-danger">
+                                        <p th:each="err : ${#fields.errors('pseudo')}" th:text="${err}"></p>
+                                    </div>
                                 </div>
 
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label for="password" data-th-text="#{login.pwd}" class="form-label" ></label>
                                     <input type="password" id="password" name="password" class="form-control form-control-lg"/>
+                                    <div th:if="${#fields.hasErrors('motDePasse')}" class="text-danger">
+                                        <p th:each="err : ${#fields.errors('motDePasse')}" th:text="${err}"></p>
+                                    </div>
                                 </div>
 
                                 <div class="pt-1 mb-4">
