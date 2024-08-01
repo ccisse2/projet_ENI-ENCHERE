@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout-enchere(
+					titrePage=~{:: title},
+					contenuPage=~{:: main},
+					ressourcesSupp=~{:: #ressources-css})}">
+
+<head>
+    <!-- Détail comme titre de page -->
+    <title data-th-text="#{view-enchere-detail.title}"></title>
+    <th:block id="ressources-css">
+
+        <script th:src="@{/js/validation.js}"></script>
+    </th:block>
+</head>
+<body>
+<main mt-5>
+    <div th:object="${article}">
+        <div th:replace="fragments/fragment-detail-article :: frag-detail-article(article=${article}, action='/article/encherir')"></div>
+    </div>
+
+    <div th:if="${errors}">
+        <ul>
+            <li th:each="error : ${errors}" th:text="${error}"></li>
+        </ul>
+    </div>
+</main>
+</body>
+</html>

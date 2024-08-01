@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="frag-entete">
+<header>
+    <nav class="navbar  fixed-top text-bg-dark p-3">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center">
+                <a href="/" class="d-flex align-items-center">
+                    <img class="rounded float-start" id="image_nav" src="/images/logo-enchere.png" alt="Logo">
+                </a>
+                <div class="language-switcher ms-3"> <!-- Ajustement du margin ici -->
+                    <a href="/?language=fr">
+                        <img alt="Français" src="/images/French.webp" class="lang-icon">
+                    </a>
+                    <a href="/?language=en">
+                        <img alt="English" src="/images/English.webp" class="lang-icon">
+                    </a>
+                </div>
+            </div>
+
+            <ul class="nav nav-pills ">
+                <li class="nav-item" th:if="${!#authorization.expression('isAuthenticated()')}">
+                    <a class="nav-link active" aria-current="page" href="/utilisateurs/register"
+                       th:text="#{frag-entete.a.inscrire}"></a>
+                </li>
+                <li class="nav-item" th:if="${!#authorization.expression('isAuthenticated()')}">
+                    <a class="nav-link active" aria-current="page" th:href="@{/login}"
+                       th:text="#{frag-entete.a.connexion}"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}" th:text="#{frag-entete.a.Accueil}"></a>
+                </li>
+                <li class="nav-item dropdown" th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                       aria-expanded="false" data-th-text="#{frag-entete.a.profil}"></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="nav-link" th:href="@{/article/creer}" th:text="#{frag-entete.a.vendre}"></a></li>
+                        <li><a class="nav-link" th:href="@{/profil}" th:text="#{frag-entete.a.profil}"></a></li>
+                        <li><a class="nav-link" th:href="@{/logout}" th:text="#{frag-entete.a.deconnexion}"></a></li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                            <a class="nav-link" th:href="@{/admin/utilisateurs}" th:text="#{frag-entete.a.gestion.User}"></a>
+                        </li>
+
+
+                    </ul>
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-dark bg-dark" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                 aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel" data-th-text="#{frag-entete.a.btn.recher}">Recherche</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <form  role="search" action="/search" method="get">
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <select name="categorieId">
+                                <option value="" data-th-text="#{frag-entete.a.all.categorie}"></option>
+                                <option th:each="categorie : ${categorieEnSession}" th:value="${categorie.id}"
+                                        th:text="${categorie.libelle}"></option>
+                            </select>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Accueil</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+                                <div>
+                                    <label>
+                                        <input type="radio" id="achats" name="typeRecherche" value="achats" checked>
+                                        <th:block data-th-text="#{frag-entete.label.achats}"></th:block>
+                                    </label>
+                                    <select name="typeAchat" id="achats-filter">
+                                        <option value="" th:text="#{frag-entete.a.all}"></option>
+                                        <option value="ouvertes" data-th-text="#{frag-entete.a.EnchereO}"></option>
+                                        <option value="enCours" data-th-text="#{frag-entete.a.EnchereEnCour}"></option>
+                                        <option value="remportees"
+                                                data-th-text="#{frag-entete.a.Enchere.gagner}"></option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input type="radio" id="ventes" name="typeRecherche" value="ventes" checked>
+                                        <th:block data-th-text="#{frag-entete.label.vente}"></th:block>
+                                    </label>
+                                    <select name="typeVente" id="ventes-filter">
+                                        <option value="" th:text="#{frag-entete.a.all}"></option>
+                                        <option value="enCours" data-th-text="#{frag-entete.a.vente.cours}"></option>
+                                        <option value="nonDebutees"
+                                                data-th-text="#{frag-entete.a.vente.debut}"></option>
+                                        <option value="terminees"
+                                                data-th-text="#{frag-entete.a.vente.terminer}"></option>
+                                    </select>
+                                </div>
+                            </th:block>
+                        </li>
+                    </ul>
+                    <div class="d-flex mt-3">
+                        <input class="form-control me-2" type="search" name="query" placeholder="Search"
+                               aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+
+        </div>
+    </nav>
+</header>
+</html>

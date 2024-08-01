@@ -1,0 +1,94 @@
+<form th:action="@{${action}}" method="post" th:fragment="frag-detail-article(article, action)" class="container mt-5">
+<div class="row g-3">
+    <h2 data-th-text="#{frag-detail-article.h2.detail.vente}"></h2>
+
+    <!-- Include global error fragment -->
+    <div th:replace="fragments/errors/fragment-errors :: frag-errors"></div>
+    <div>
+        <label>Image:</label>
+        <img th:src="@{'/' + ${article.imagePath}}" alt="Image de l'article" style="max-width: 100%;">
+    </div>
+
+    <div class="col-md-6">
+        <label data-th-text="#{frag-detail-article.label.article}"></label>
+        <span th:text="${article.nomArticle}"></span>
+        <div th:replace="fragments/errors/fragment-error :: frag-error('nomArticle')"></div>
+    </div>
+    <div class="col-md-6">
+        <label data-th-text="#{frag-detail-article.label.prix}"></label>
+        <span th:text="${article.prixInitial}"></span>
+        <div th:replace="fragments/errors/fragment-error :: frag-error('prixInitial')"></div>
+    </div>
+
+</div>
+
+<div class="col-md-6">
+    <label data-th-text="#{frag-detail-article.label.categorie}"></label>
+    <span th:text="${article.categorie.libelle}"></span>
+</div>
+<div class="col-md-6">
+    <label data-th-text="#{frag-detail-article.label.offre}"></label>
+    <span th:text="${article.prixVente}"></span>
+</div>
+
+<div class="col-md-6">
+    <label data-th-text="#{frag-detail-article.label.description}"></label>
+    <p th:text="${article.description}"></p>
+</div>
+<div class="col-md-6">
+    <label data-th-text="#{frag-detail-article.label.dateFin}"></label>
+    <span th:text="${article.dateFinEncheres}"></span>
+</div>
+
+<div class="col-md-6">
+    <label data-th-text="#{frag-detail-article.label.retrait}"></label>
+    <span th:text="${article.adresseRetrait.rue} + ' ' + ${article.adresseRetrait.codePostal} + ' ' + ${article.adresseRetrait.ville}"></span>
+</div>
+<div class="col-md-6">
+    <label data-th-text="#{frag-detail-article.label.dateDebut}"></label>
+    <span th:text="${article.dateDebutEncheres}"></span>
+
+</div>
+<div class="col-md-6">
+    <label data-th-text="#{frag-detail-article.label.vendeur}"></label>
+    <span th:text="${article.vendeur.pseudo}"></span>
+</div>
+<div class="col-md-6">
+    <th:block th:if="${#authorization.expression('isAuthenticated()') &&
+    #authentication.name != article.vendeur.pseudo && article.statutEnchere == 1}">
+        <form th:action="@{/article/encherir}" method="post">
+            <input type="hidden" name="id" th:value="${article.id}"/>
+            <div>
+                <label data-th-text="#{frag-detail-article.label.enchere}"></label>
+                <input type="number" name="montantEnchere" id="montant-enchere" required>
+            </div>
+            <button id="btn-encherir" type="submit" class="btn btn-primary" data-th-text="#{frag-detail-article.btn.encherir}"></button>
+        </form>
+    </th:block>
+</div>
+<div class="form-actions">
+    <th:block th:if="${#authorization.expression('isAuthenticated()') &&
+                        article.vendeur.pseudo == membreEnSession.pseudo}">
+
+            <a class="btn btn-primary" id="btn-edit-article" th:href="@{|/article/${article.id}/edit|}"
+               data-th-text="#{frag-article-enchere.a.edit}"></a>
+
+
+            <a class="btn btn-primary" th:href="@{|/article/${article.id}/delete|}" data-th-text="#{frag-article-enchere.a.delete}"></a>
+
+
+            <button type="button" class="btn btn-primary" th:onclick="'confirmRetraitEffectue(' + ${article.id} + ')'"
+                    data-th-text="#{frag-article-enchere.a.retrait}"></button>
+        <a class="btn btn-primary" id="btn-ajout-image" th:href="@{|/article/${article.id}/upload-image|}"
+        data-th-text="#{frag-detail-article.a.btn.image}"></a>
+
+    </th:block>
+
+    <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+        <button type="button" class="btn btn-primary" data-th-text="#{frag-article.btn.signaler}"></button>
+    </th:block>
+    <button id="reset-button" class="btn btn-secondary" type="button"
+            onclick="window.location.href='/'" data-th-text="#{frag-detail-article.btn.retour}"></button>
+</div>
+</form>
+

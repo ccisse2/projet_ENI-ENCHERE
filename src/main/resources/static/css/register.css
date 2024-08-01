@@ -1,0 +1,105 @@
+.container_form{
+    min-width: 200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-direction: column;
+
+}
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.form-group label {
+    margin-left: 2px;
+    margin: 0;
+    width: 10%;
+    min-height: 10px;
+    font-weight: bold;
+    font-size: small;
+}
+.form-group span{
+    width: 35%;
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.form-group p{
+    width: 35%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.form-group select{
+    width: 37%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.form-group textarea{
+    width: 35%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.form-group input {
+
+        width: 35%;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.form-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+}
+#reset-button{
+    width: 100px;
+    margin-left: 50%;
+    background: antiquewhite;
+    cursor: pointer;
+}
+#reset-button:hover{
+    background: turquoise;
+}
+
+.form-actions button[type="button"] {
+    background-color: #f44336; /* Red */
+}
+
+.form-actions button[type="submit"] {
+    background-color: #008CBA; /* Blue */
+}
+
+.form-actions button[type="button"]:nth-child(2) {
+    background-color: #FFA500; /* Orange */
+}
+
+.form-actions button[type="button"]:nth-child(4) {
+    background-color: #cccccc; /* Grey */
+}
+
+

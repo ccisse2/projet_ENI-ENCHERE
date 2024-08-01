@@ -1,0 +1,12 @@
+<!-- Affichage d'un message global s'il y a des erreurs -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="frag-errors">
+    <div th:if="${#fields.hasErrors('*')}" class="cards">
+        <h2 th:text="#{frag-errors.h2}"></h2>
+        <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+    </div>
+</div>
+</body>
+</html>

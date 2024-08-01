@@ -1,0 +1,62 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout-enchere(
+      titrePage=~{:: title},
+      contenuPage=~{:: main},
+      ressourcesSupp=~{:: #ressources-css})}">
+<head>
+    <title data-th-text="#{login.title}"></title>
+    <th:block id="ressources-css">
+        <link rel="stylesheet" data-th-href="@{/css/login.css}">
+        <link rel="stylesheet" data-th-href="@{/css/demo-error.css}">
+    </th:block>
+</head>
+<body>
+<main>
+        <section class="vh-50">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-7  text-black">
+
+                        <div class="d-flex align-items-center  justify-content-center px-5 mt-xl-n5">
+
+                            <form th:action="@{/login}" method="post" style="width: 23rem;">
+
+                                <h3 class="fw-normal mb-3 pb-3" data-th-text="#{login.h1}" style="letter-spacing: 1px;"></h3>
+
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                    <label class="form-label" for="username" data-th-text="#{login.pseudo}"></label>
+                                    <input type="text" id="username" name="username" class="form-control form-control-lg"/>
+                                </div>
+
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                    <label for="password" data-th-text="#{login.pwd}" class="form-label" ></label>
+                                    <input type="password" id="password" name="password" class="form-control form-control-lg"/>
+                                </div>
+
+                                <div class="pt-1 mb-4">
+                                    <button href="/register" data-mdb-button-init data-mdb-ripple-init
+                                            class="btn btn-info btn-lg btn-block" type="submit" data-th-text="#{frag-login.btn.login}">Login
+                                    </button>
+                                </div>
+
+                                <p class="small mb-5 pb-lg-2"><a class="text-muted" href="/utilisateurs/reset-password" th:text="#{frag-login.forget.psw}"></a></p>
+                                <p>
+                                    <th:block data-th-text="#{frag-login.p.noinscris}"></th:block>
+                                    <a th:href="@{/utilisateurs/register}" data-th-text="#{frag-login.p.inscris}" class="link-info" ></a>
+                                </p>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <div class="col px-0  d-none d-sm-block">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img3.webp"
+                             alt="Login image" class="w-100  h-80" style="object-fit: cover; object-position: left;">
+                    </div>
+                </div>
+            </div>
+        </section>
+</main>
+</body>
+</html>

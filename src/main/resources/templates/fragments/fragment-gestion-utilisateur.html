@@ -1,0 +1,34 @@
+<div class="container" th:fragment="frag-gestion-utilisateur">
+    <h2>Liste des utilisateurs</h2>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Pseudo</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="utilisateur : ${utilisateurs}">
+            <td th:text="${utilisateur.id}"></td>
+            <td th:text="${utilisateur.pseudo}"></td>
+            <td th:text="${utilisateur.email}"></td>
+            <td>
+                <form th:action="@{/admin/utilisateur/{id}/anonymiser(id=${utilisateur.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-warning">Anonymiser</button>
+                </form>
+                <form th:action="@{/admin/utilisateur/{id}/desactiver(id=${utilisateur.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-secondary" th:disabled="${!utilisateur.actif}">Désactiver</button>
+                </form>
+                <form th:action="@{/admin/utilisateur/{pseudo}/supprimer(pseudo=${utilisateur.pseudo})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

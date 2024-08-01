@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<form class="container_form" th:fragment="frag-form-article(titreForm, action)" th:action="@{${action}}" method="post"
+      th:object="${articleAVendre}">
+    <h2 th:text="#{view-creer-article.titreForm}"></h2>
+
+    <th:block th:if="${#fields.hasGlobalErrors()}">
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+            </ul>
+        </div>
+    </th:block>
+
+    <div class="form-group">
+        <label for="nomArticle" th:text="#{frag-form.article.nomArticle}"></label>
+        <input type="text" id="nomArticle" th:field="*{nomArticle}" required>
+        <div th:if="${#fields.hasErrors('nomArticle')}" th:errors="*{nomArticle}"></div>
+
+        <label for="prixInitial" th:text="#{frag-form.article.prixInitial}"></label>
+        <input type="number" id="prixInitial" th:field="*{prixInitial}" required>
+        <div th:if="${#fields.hasErrors('prixInitial')}" th:errors="*{prixInitial}"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="categorie" th:text="#{frag-form.article.categorie}"></label>
+        <select id="categorie" th:field="*{categorie}" required>
+            <option th:each="categorie : ${categories}" th:value="${categorie.id}" th:text="${categorie.libelle}"></option>
+        </select>
+        <div th:if="${#fields.hasErrors('categorie')}" th:errors="*{categorie}"></div>
+
+        <label for="dateDebutEncheres" th:text="#{frag-form.article.dateDebutEncheres}"></label>
+        <input type="datetime-local" id="dateDebutEncheres" th:field="*{dateDebutEncheres}" required>
+        <div th:if="${#fields.hasErrors('dateDebutEncheres')}" th:errors="*{dateDebutEncheres}"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="description" th:text="#{frag-form.article.description}"></label>
+        <textarea id="description" th:field="*{description}" required></textarea>
+        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+
+        <label for="dateFinEncheres" th:text="#{frag-form.article.dateFinEncheres}"></label>
+        <input type="datetime-local" id="dateFinEncheres" th:field="*{dateFinEncheres}" required>
+        <div th:if="${#fields.hasErrors('dateFinEncheres')}" th:errors="*{dateFinEncheres}"></div>
+    </div>
+    <div class="form-group">
+        <label for="adresseRetrait" th:text="#{frag-form.article.adresseRetrait}"></label>
+        <select id="adresseRetrait" th:field="*{adresseRetrait}" required>
+            <option th:each="adresse : ${adresses}" th:value="${adresse.id}"
+                    th:text="${adresse.rue} + ' ' + ${adresse.codePostal} + ' ' + ${adresse.ville}"></option>
+        </select>
+        <div th:if="${#fields.hasErrors('adresseRetrait')}" th:errors="*{adresseRetrait}"></div>
+    </div>
+
+    <div class="form-actions" th:if="${!#strings.isEmpty(action)}">
+        <th:block th:if="${!#strings.contains(action, 'edit')}">
+            <button type="submit" th:text="#{frag-form.bouton.suivant}"></button>
+        </th:block>
+
+        <th:block th:if="${#strings.contains(action, 'edit')}">
+            <button type="submit" th:text="#{frag-form-article.buton.modifier}"></button>
+        </th:block>
+        <button type="button" onclick="window.location.href='/'" th:text="#{frag-form.bouton.annuler}"></button>
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org" data-th-fragment="frag-upload-image">
+  <h2>Ajouter une photo</h2>
+
+  <form th:action="@{/article/{id}/upload-image(id=${articleId})}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="image">Photo de l'article :</label>
+      <input type="file" id="image" name="image" class="form-control" onchange="previewImage(event)" required>
+    </div>
+    <div class="form-group">
+      <img id="imagePreview" style="max-width: 100%; display: none;" alt="Prévisualisation de l'image"/>
+    </div>
+    <input type="hidden" name="articleId" th:value="${articleid}">
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Enregistrer la photo</button>
+      <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Annuler</button>
+    </div>
+  </form>
+</div>
+</html>

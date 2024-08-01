@@ -1,0 +1,57 @@
+@charset "UTF-8";
+
+body {
+	font-family: Arial, sans-serif;
+}
+
+h1 {
+	text-align: center;
+}
+
+form {
+	max-width: 400px;
+	margin: auto;
+	padding: 1em;
+	border: 1px solid #ccc;
+	border-radius: 1em;
+}
+
+ul.flex-outer {
+	padding: 0;
+	list-style: none;
+}
+
+ul.flex-outer li {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 10px;
+}
+
+ul.flex-outer li label {
+	padding: 5px;
+	width: 100%;
+}
+
+ul.flex-outer li input,
+ul.flex-outer li textarea {
+	padding: 5px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+ul.flex-outer li button {
+	padding: 5px;
+	background: #007BFF;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+ul.flex-outer li button:hover {
+	background: #0056b3;
+}
+
+ul.flex-outer li a {
+	font-size: x-small;
+}

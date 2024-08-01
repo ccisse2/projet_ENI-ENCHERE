@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+}
+.container {
+    min-width: 200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.center-main{
+    padding: 12px;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #4e7efc;
+    padding: 10px 0;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+   /*align-items: center;*/
+}
+.logo img {
+    height: 40px;
+}
+.search-bar {
+    flex-grow: 1;
+    margin: 0 20px;
+}
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.main-nav ul li {
+    margin: 0 10px;
+}
+
+.main-nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.main-nav ul li a img {
+    height: 24px;
+    margin-right: 5px;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+}
+
+.user-actions a {
+    text-decoration: none;
+    color: #fff;
+    margin-left: 15px;
+}
+
+footer {
+    background-color: #4e7efc;
+    padding: 20px 0;
+    border-top: 1px solid #dee2e6;
+    text-align: center;
+    color: #fff;
+    height: auto;
+}
+main{
+    margin: 10px;
+    margin-bottom: 20px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    header .container, footer .container {
+        flex-direction: column;
+    }
+
+    .search-bar {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .user-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .user-actions a {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+    .item {
+        width: 100%;
+    }
+}

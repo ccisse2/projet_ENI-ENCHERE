@@ -1,0 +1,112 @@
+<form th:fragment="frag-form-register(titreForm, action)" th:action="@{${action}}" method="post"
+      th:object="${utilisateur}" class="container mt-5">
+    <div class="row g-3">
+        <h2 th:text="${titreForm}"></h2>
+        <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="pseudo" th:text="#{frag-form.label.pseudo}"></label>
+                <input type="text" id="pseudo" th:field="*{pseudo}" class="form-control" required>
+                <div th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="text-danger"></div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="nom" th:text="#{frag-form.label.nom}"></label>
+                <input type="text" id="nom" th:field="*{nom}" class="form-control" required>
+                <div th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" class="text-danger"></div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="prenom" th:text="#{frag-form.label.prenom}"></label>
+                <input type="text" id="prenom" th:field="*{prenom}" class="form-control" required>
+                <div th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}" class="text-danger"></div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="email" th:text="#{frag-form.label.email}"></label>
+                <input type="email" id="email" th:field="*{email}" class="form-control" required>
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="telephone" th:text="#{frag-form.label.tel}"></label>
+                <input type="text" id="telephone" th:field="*{telephone}" class="form-control">
+                <div th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" class="text-danger"></div>
+            </div>
+        </div>
+        <th:block th:if="${#strings.isEmpty(action)}">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="credit" th:text="#{frag-form.label.credit}"></label>
+                <input type="number" id="credit" th:field="*{credit}" class="form-control" th:attr="disabled=${#strings.isEmpty(action)}">
+            </div>
+        </div>
+        </th:block>
+        <div class="col-12">
+            <div class="form-group">
+                <label for="rue" th:text="#{frag-form.label.adresse}"></label>
+                <input type="text" id="rue" th:field="*{adresse.rue}" class="form-control" required>
+                <div th:if="${#fields.hasErrors('adresse.rue')}" th:errors="*{adresse.rue}" class="text-danger"></div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="codePostal" th:text="#{frag-form.label.cp}"></label>
+                <input type="text" id="codePostal" th:field="*{adresse.codePostal}" class="form-control" required>
+                <div th:if="${#fields.hasErrors('adresse.codePostal')}" th:errors="*{adresse.codePostal}" class="text-danger"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="ville" th:text="#{frag-form.label.ville}"></label>
+                <input type="text" id="ville" th:field="*{adresse.ville}" class="form-control" required>
+                <div th:if="${#fields.hasErrors('adresse.ville')}" th:errors="*{adresse.ville}" class="text-danger"></div>
+            </div>
+        </div>
+
+        <th:block th:if="${!#strings.isEmpty(action)}">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="motDePasse" th:text="#{frag-form.label.pwd}"></label>
+                    <input type="password" id="motDePasse" th:field="*{motDePasse}" class="form-control" required>
+                    <div th:if="${#fields.hasErrors('motDePasse')}" th:errors="*{motDePasse}" class="text-danger"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="confirmation" th:text="#{frag-form.label.confirmation}"></label>
+                    <input type="password" id="confirmation" name="confirmation" class="form-control" required>
+                </div>
+            </div>
+        </th:block>
+
+        <div class="form-actions">
+            <th:block th:if="${#strings.isEmpty(action)}">
+                <button type="submit" th:text="#{frag-form.bouton.modifier}" class="btn btn-primary"></button>
+                <button type="button" onclick="window.location.href='/profil/change-password'" th:text="#{frag-form.bouton.modifierPwd}" class="btn btn-secondary"></button>
+                <button type="button" onclick="confirmDelete()" th:text="#{frag-form.bouton.supprimer}" class="btn btn-danger"></button>
+                <form th:action="@{/utilisateur/{id}/anonymiser(id=${utilisateur.id})}" method="post">
+                    <button type="submit" class="btn btn-warning" data-th-text="#{frag-form.bouton.anonyme}"></button>
+                </form>
+
+            </th:block>
+            <th:block th:if="${!#strings.isEmpty(action)}">
+                <button type="submit" onclick="validatePassword()" th:text="#{frag-form.bouton.creer}" class="btn btn-primary"></button>
+            </th:block>
+
+            <button type="button" onclick="window.location.href='/'" th:text="#{frag-form.bouton.annuler}" class="btn btn-secondary"></button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!-- Mise en place du layout -->
+<!-- Accueil comme titre de page -->
+<!-- la balise main définit par la classe de CSS 'center-main' comme paramètre contenuPage -->
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout-enchere(
+      				titrePage=~{:: title},
+					contenuPage=~{:: main},
+					ressourcesSupp=~{:: #ressources-css})}">
+
+<head>
+    <!-- Accueil comme titre de page -->
+    <title data-th-text="#{index.title}"></title>
+    <th:block id="ressources-css">
+
+    </th:block>
+</head>
+<body>
+<main class="center-main">
+
+        <th:block th:replace="fragments/fragment-article-enchere :: frag-article-enchere(articles=${articlesEnSession})"></th:block>
+
+</main>
+</body>
+</html>
