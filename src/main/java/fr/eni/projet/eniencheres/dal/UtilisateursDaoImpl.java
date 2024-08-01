@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class UtilisateursDaoImpl implements UtilisateursDao {
@@ -72,7 +73,7 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
         jdbcTemplate.update(INSERT_USER, namedParameters, keyHolder);
 
         // Optionnel : récupérer l'identifiant généré pour l'utilisateur
-        utilisateurs.setId(keyHolder.getKey().longValue());
+        utilisateurs.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
     }
 
     @Override
@@ -81,10 +82,12 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
         namedParameters.addValue("pseudo", pseudo);
 
         Utilisateurs utilisateur = jdbcTemplate.queryForObject(SELECT_USER_BY_PSEUDO, namedParameters, new UtilisateurMapper());
-        Adresse adresse = adresseDao.readByUtilisateur(utilisateur.getId());
-        utilisateur.setAdresse(adresse);
-
-        return utilisateur;
+        if (utilisateur != null) {
+            Adresse adresse = adresseDao.readByUtilisateur(utilisateur.getId());
+            utilisateur.setAdresse(adresse);
+            return utilisateur;
+        }
+        return null;
     }
 
     @Override
@@ -93,9 +96,12 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
         namedParameters.addValue("id", id);
 
         Utilisateurs utilisateur = jdbcTemplate.queryForObject(SELECT_USER_BY_ID, namedParameters, new UtilisateurMapper());
-        Adresse adresse = adresseDao.readByUtilisateur(utilisateur.getId());
-        utilisateur.setAdresse(adresse);
-        return utilisateur;
+        if (utilisateur != null) {
+            Adresse adresse = adresseDao.readByUtilisateur(utilisateur.getId());
+            utilisateur.setAdresse(adresse);
+            return utilisateur;
+        }
+        return null;
     }
 
     @Override
@@ -226,7 +232,7 @@ public class UtilisateursDaoImpl implements UtilisateursDao {
         }
     }
 
-    public class AdresseMapper implements RowMapper<Adresse> {
+    public static class AdresseMapper implements RowMapper<Adresse> {
         @Override
         public Adresse mapRow(ResultSet rs, int rowNum) throws SQLException {
             Adresse adresse = new Adresse();

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class AdresseDaoImpl implements AdresseDao  {
@@ -39,7 +40,7 @@ public class AdresseDaoImpl implements AdresseDao  {
 
         jdbcTemplate.update(INSERT_ADRESSE, namedParameters, keyHolder);
 
-        adresse.setId(keyHolder.getKey().longValue());
+        adresse.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
     }
 
     @Override
@@ -47,8 +48,7 @@ public class AdresseDaoImpl implements AdresseDao  {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("id", id);
 
-        Adresse adresse = jdbcTemplate.queryForObject(SELECT_ADRESSE_BY_USER_ID, namedParameters, new AdresseMapper());
-        return adresse;
+        return jdbcTemplate.queryForObject(SELECT_ADRESSE_BY_USER_ID, namedParameters, new AdresseMapper());
 
     }
     @Override
@@ -56,15 +56,12 @@ public class AdresseDaoImpl implements AdresseDao  {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("id", id);
 
-      Adresse adresse = jdbcTemplate.queryForObject(SELECT_ADRESSE_BY_ID, namedParameters, new AdresseMapper());
-
-      return adresse;
+        return jdbcTemplate.queryForObject(SELECT_ADRESSE_BY_ID, namedParameters, new AdresseMapper());
     }
 
     @Override
     public List<Adresse> readAllEni(){
-        List<Adresse> adresses = jdbcTemplate.query(SELECT_ADRESSE_ENI, new AdresseMapper());
-        return adresses;
+        return jdbcTemplate.query(SELECT_ADRESSE_ENI, new AdresseMapper());
     }
 
     @Override

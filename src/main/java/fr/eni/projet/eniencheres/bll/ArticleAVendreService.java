@@ -34,7 +34,5 @@ public interface ArticleAVendreService {
 
     List<ArticleAVendre> chercherVentesTerminees(Long utilisateurId);
 
-    void updateEncheresStatus();
-
     void mettreAJourRessourcesPourUtilisateur(Long utilisateurId);
 }

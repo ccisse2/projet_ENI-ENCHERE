@@ -3,7 +3,6 @@ package fr.eni.projet.eniencheres.controller;
 import fr.eni.projet.eniencheres.bll.ArticleAVendreService;
 import fr.eni.projet.eniencheres.bll.EmailService;
 import fr.eni.projet.eniencheres.bll.UtilisateursService;
-import fr.eni.projet.eniencheres.bo.Adresse;
 import fr.eni.projet.eniencheres.bo.PasswordResetForm;
 import fr.eni.projet.eniencheres.bo.Utilisateurs;
 import jakarta.validation.Valid;
@@ -106,7 +105,7 @@ public class ControllerUtilisateur {
     @PostMapping("/reset-password")
     public String demanderResetMotDePasse(@RequestParam String email, Model model) {
         try {
-            utilisateursService.créerTokenDeRéinitialisation(email);
+            utilisateursService.creerTokenDeReinitialisation(email);
             model.addAttribute("message", "Un lien de réinitialisation de mot de passe a été envoyé à votre adresse email.");
         } catch (UsernameNotFoundException e) {
             model.addAttribute("error", "Aucun utilisateur trouvé avec cet email.");
@@ -116,7 +115,7 @@ public class ControllerUtilisateur {
 
     @GetMapping("/reset-password/{token}")
     public String afficherFormulaireNouveauMotDePasse(@PathVariable String token, Model model) {
-        if (utilisateursService.vérifierToken(token)) {
+        if (utilisateursService.verifierToken(token)) {
             model.addAttribute("token", token);
             return "view-new-password";
         } else {
@@ -139,7 +138,7 @@ public class ControllerUtilisateur {
         }
 
         try {
-            utilisateursService.réinitialiserMotDePasse(token, passwordResetForm.getNouveauMotDePasse());
+            utilisateursService.reinitialiserMotDePasse(token, passwordResetForm.getNouveauMotDePasse());
             return "redirect:/login";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", "Le lien de réinitialisation est invalide ou a expiré.");

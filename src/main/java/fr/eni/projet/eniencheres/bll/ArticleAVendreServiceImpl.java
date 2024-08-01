@@ -7,7 +7,6 @@ import fr.eni.projet.eniencheres.dal.UtilisateursDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -93,23 +92,6 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService{
     }
 
     @Override
-    public void updateEncheresStatus() {
-            List<ArticleAVendre> articles = articleDao.findAll();
-            LocalDateTime now = LocalDateTime.now();
-
-            for (ArticleAVendre article : articles) {
-                if (article.getDateDebutEncheres().isEqual(now) || article.getDateDebutEncheres().isBefore(now)) {
-                    if (article.getDateFinEncheres().isAfter(now) && article.getStatutEnchere() != 2) {
-                        article.setStatutEnchere(1); // En cours
-                    } else if (article.getDateFinEncheres().isBefore(now) || article.getDateFinEncheres().isEqual(now)) {
-                        article.setStatutEnchere(2); // Clôturée
-                    }
-                    articleDao.update(article); // Mettre à jour l'article dans la base de données
-                }
-            }
-        }
-
-        @Override
     public void mettreAJourRessourcesPourUtilisateur(Long utilisateurId) {
         List<ArticleAVendre> articles = articleDao.FIND_ALL_VENTES(utilisateurId);
         for (ArticleAVendre article : articles) {

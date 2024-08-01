@@ -47,7 +47,7 @@ public class EnchereDaoImpl implements EnchereDao {
 
     @Autowired
     public EnchereDaoImpl(NamedParameterJdbcTemplate jdbcTemplate, UtilisateursDao utilisateursDao,
-                          ArticleAVendreDao articleAVendreDao, ArticleAVendreService articleAVendreservice) {
+                          ArticleAVendreService articleAVendreservice) {
         this.jdbcTemplate = jdbcTemplate;
         this.utilisateursDao = utilisateursDao;
         this.articleAVendreservice = articleAVendreservice;

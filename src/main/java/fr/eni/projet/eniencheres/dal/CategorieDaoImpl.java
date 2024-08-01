@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class CategorieDaoImpl implements CategorieDao {
@@ -33,7 +34,7 @@ public class CategorieDaoImpl implements CategorieDao {
         namedParameters.addValue("libelle", categorie.getLibelle());
 
         jdbcTemplate.update(INSERT_CATEGORIE, namedParameters, keyHolder);
-        categorie.setId(keyHolder.getKey().longValue());
+        categorie.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
     }
 
     @Override

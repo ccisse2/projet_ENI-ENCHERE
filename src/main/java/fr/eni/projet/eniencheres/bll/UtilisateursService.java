@@ -33,11 +33,11 @@ public interface UtilisateursService {
 
     void annulerEncheresEtArticles(String pseudo);
 
-    void créerTokenDeRéinitialisation(String email);
+    void creerTokenDeReinitialisation(String email);
 
-    boolean vérifierToken(String token);
+    boolean verifierToken(String token);
 
-    void réinitialiserMotDePasse(String token, String nouveauMotDePasse);
+    void reinitialiserMotDePasse(String token, String nouveauMotDePasse);
 
     void creerUtilisateurTemporaire(Utilisateurs utilisateur, String token);
 

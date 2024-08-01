@@ -214,7 +214,7 @@ public class UtilisateursServiceImpl implements UtilisateursService {
     }
 
     @Override
-    public void créerTokenDeRéinitialisation(String email) {
+    public void creerTokenDeReinitialisation(String email) {
         Utilisateurs utilisateur = utilisateurDao.findByEmail(email);
         if (utilisateur == null) {
             throw new UsernameNotFoundException("Aucun utilisateur trouvé avec cet email.");
@@ -229,7 +229,7 @@ public class UtilisateursServiceImpl implements UtilisateursService {
     }
 
     @Override
-    public boolean vérifierToken(String token) {
+    public boolean verifierToken(String token) {
         Utilisateurs utilisateur = utilisateurDao.findByToken(token);
         if (utilisateur != null && utilisateur.getTokenExpiryDate() != null) {
             return utilisateur.getTokenExpiryDate().isAfter(LocalDateTime.now());
@@ -238,7 +238,7 @@ public class UtilisateursServiceImpl implements UtilisateursService {
     }
 
     @Override
-    public void réinitialiserMotDePasse(String token, String nouveauMotDePasse) {
+    public void reinitialiserMotDePasse(String token, String nouveauMotDePasse) {
         Utilisateurs utilisateur = utilisateurDao.findByToken(token);
         if (utilisateur == null || utilisateur.getTokenExpiryDate() == null || utilisateur.getTokenExpiryDate().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Token invalide ou expiré.");

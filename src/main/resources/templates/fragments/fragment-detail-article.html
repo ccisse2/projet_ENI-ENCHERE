@@ -59,7 +59,7 @@
         <form th:action="@{/article/encherir}" method="post">
             <input type="hidden" name="id" th:value="${article.id}"/>
             <div>
-                <label data-th-text="#{frag-detail-article.label.enchere}"></label>
+                <label for="montant-enchere" data-th-text="#{frag-detail-article.label.enchere}"></label>
                 <input type="number" name="montantEnchere" id="montant-enchere" required>
             </div>
             <button id="btn-encherir" type="submit" class="btn btn-primary" data-th-text="#{frag-detail-article.btn.encherir}"></button>
@@ -84,9 +84,6 @@
 
     </th:block>
 
-    <th:block th:if="${#authorization.expression('isAuthenticated()')}">
-        <button type="button" class="btn btn-primary" data-th-text="#{frag-article.btn.signaler}"></button>
-    </th:block>
     <button id="reset-button" class="btn btn-secondary" type="button"
             onclick="window.location.href='/'" data-th-text="#{frag-detail-article.btn.retour}"></button>
 </div>

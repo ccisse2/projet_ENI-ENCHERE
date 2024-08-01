@@ -3,7 +3,6 @@ package fr.eni.projet.eniencheres.controller;
 import fr.eni.projet.eniencheres.bll.*;
 import fr.eni.projet.eniencheres.bo.*;
 import fr.eni.projet.eniencheres.exceptions.BusinessException;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -37,7 +36,7 @@ public class ControllerArticle {
 
     @Autowired
     public ControllerArticle(ArticleAVendreService articleAVendreService, AdresseService adresseService,
-                             UtilisateursService utilisateursService, CategorieService categorieService, EnchereService enenchereService, EnchereService enchereService) {
+                             UtilisateursService utilisateursService, CategorieService categorieService, EnchereService enchereService) {
         this.articleAVendreService = articleAVendreService;
         this.adresseService = adresseService;
         this.utilisateursService = utilisateursService;
@@ -56,7 +55,7 @@ public class ControllerArticle {
     }
 
     @GetMapping("/creer")
-    public String afficherFormulaireCreationArticle(HttpSession session, Model model) {
+    public String afficherFormulaireCreationArticle(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String pseudo = auth.getName();
         Utilisateurs utilisateur = utilisateursService.charger(pseudo);
@@ -70,7 +69,7 @@ public class ControllerArticle {
         List<Categorie> categories = categorieService.recupererToutesLesCategories();
 
         // Ajouter l'adresse par défaut du vendeur en haut de la liste
-        adressesEni.add(0, adresseParDefaut);
+        adressesEni.addFirst(adresseParDefaut);
 
         model.addAttribute("adresses", adressesEni);
         model.addAttribute("categories", categories);
@@ -123,6 +122,7 @@ public class ControllerArticle {
                     System.out.println("Directory created: " + uploadsPath.toString());
                 }
                 String filename = image.getOriginalFilename();
+                assert filename != null;
                 Path path = uploadsPath.resolve(filename);
                 Files.write(path, image.getBytes());
 
